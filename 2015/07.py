@@ -21,7 +21,7 @@ def partOne():
 
     for line in data:
         line = line.split("->")
-        operations[line[1].strip()] = line[0].split()
+        operations[line[1].strip()] = line[0].split() # Do I make the numbers into unsigned ints at this stage?
         # print(line)
 
     print(operations)
@@ -35,21 +35,26 @@ def partOne():
 
     # We need to find all operations that lead into node `a`. Recursion will be our best bet here.
     def calculateNode(node):
+        print(f'Calculating node {node}:')
+
         # First case: simple assignment of x -> y
         if len(operations[node]) == 1:
+            #check if the operation variable is an int. If so, just assign it.
+            if operations[node][0].isnumeric():
+                signals[node] = np.uint16(operations[node[0]])
             #recursion step
-            if operations[node][0] not in signals:
+            elif operations[node][0] not in signals:
                 calculateNode(operations[node][0])
-
-            signals[node] = operations[node]
+                signals[node] = operations[node]
 
         # Unary case: NOT x -> y
         elif operations[node][0] == "NOT":
+            if operations[node][0].isnumeric():
+                signals[node] = ~np.uint16(operations[node[0]])
             #recursion step
-            if operations[node][1] not in signals:
+            elif operations[node][1] not in signals:
                 calculateNode(operations[node][1])
-
-            signals[node] = ~operations[node][1]
+                signals[node] = ~operations[node][1]
           
         # All other cases: x OPERATION z -> y
         else:
@@ -59,7 +64,9 @@ def partOne():
 
           #recursion step
           for child in (first, second):
-              if child not in signals:
+              if child.isnumeric():
+                child = np.uint16(child) #This is not making operations[node][i] numeric
+              elif child not in signals:
                   calculateNode(child)
         
           if operation == "AND":
@@ -72,7 +79,7 @@ def partOne():
               signals[node] = first >> second
           
     # calculateNode("a") 
-    print(f'Operations for `a`: {operations["a"]}')       
+    # print(f'Operations for `a`: {operations["a"]}')       
 
     calculateNode("a")
 
