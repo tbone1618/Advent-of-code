@@ -11,12 +11,16 @@ stringChars = 0
 # The result from the below code is too low currently
 
 for line in data:
+    # print(line)
     totalChars = totalChars + len(line)
 
 print(f'Total Characters: {totalChars}')
 
+print("**************************************************************************")
+
 for line in processedData:
-    stringChars = stringChars + len(line)
+    # print(line)
+    stringChars = stringChars + len(line) - 2 #subtract 2 because quotation marks don't count
 
 print(f'String Characters: {stringChars}')
 
