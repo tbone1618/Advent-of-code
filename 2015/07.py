@@ -1,6 +1,7 @@
 import numpy as np
 
-with open('./2015/07.txt') as f:
+# open ./2015/07.txt instead for part 1
+with open('./2015/07pt2.txt') as f:
     data = [line.rstrip('\n') for line in f]
 
 # Unsigned ints can be created using numpy's np.uint16({num})
