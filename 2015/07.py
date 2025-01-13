@@ -49,7 +49,7 @@ def partOne():
         # First case: simple assignment of x -> y
         if len(operations[node]) == 1:
             child = operations[node][0]
-            # child is a string, e.g. a node
+            # child is a node (str) or an int
             if isinstance(child, str):
                 if child not in signals:
                     calculateNode(child)
@@ -77,53 +77,29 @@ def partOne():
             second = operations[node][2]
             operation = operations[node][1]
 
-            # # Perform the operation and store the result in signals
-            # if operation == "AND":
-            #     signals[node] = np.uint16(signals[first] & signals[second])
-            # elif operation == "OR":
-            #     signals[node] = np.uint16(signals[first] | signals[second])
-            # elif operation == "LSHIFT":
-            #     signals[node] = np.uint16(signals[first] << int(second))
-            # elif operation == "RSHIFT":
-            #     signals[node] = np.uint16(signals[first] >> int(second))    
+            # if first or second are strings, we need to retrieve their value from signals
+            # Otherwise first or second is an int and we don't have to reassign
+            if isinstance(first, str):
+                if first not in signals:
+                    calculateNode(first)
+                first = signals[first]
 
-            # below is how chatgpt would do the checking on the nodes and bitwise operations. Need to implement something
-            # similar for binary operations, and mask to 0xFFFF
+            if isinstance(second, str):
+                if second not in signals:
+                    calculateNode(second)
+                second = signals[second]
 
-            '''
-            def calculateNode(node):
-    # Extract operation details
-    first = operations[node][0]
-    second = operations[node][2]
-    operation = operations[node][1]
 
-    # If `first` or `second` is a string, resolve it first
-    if isinstance(first, str):
-        if first.isnumeric():
-            first = int(first)  # Convert to int if numeric
-        else:
-            if first not in signals:
-                calculateNode(first)
-            first = signals[first]
+            if operation == "AND":
+                signals[node] = (first & second) & 0xFFFF
+            elif operation == "OR":
+                signals[node] = (first | second) & 0xFFFF
+            elif operation == "LSHIFT":
+                signals[node] = (first << second) & 0xFFFF
+            elif operation == "RSHIFT":
+                signals[node] = (first >> second) & 0xFFFF
 
-    if isinstance(second, str):
-        if second.isnumeric():
-            second = int(second)  # Convert to int if numeric
-        else:
-            if second not in signals:
-                calculateNode(second)
-            second = signals[second]
-
-    # Perform the bitwise operation
-    if operation == "AND":
-        signals[node] = first & second
-    elif operation == "OR":
-        signals[node] = first | second
-    elif operation == "LSHIFT":
-        signals[node] = first << second
-    elif operation == "RSHIFT":
-        signals[node] = first >> second
-            '''
+        print(f'Signal at {node}: {signals[node]}')
 
     calculateNode("a")
 
