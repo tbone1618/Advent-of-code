@@ -59,5 +59,33 @@ def partOne():
   print(f'Total nice strings in list: {total_nice_strings}')
   print()
 
+
+
+def partTwo():
+
+  total_nice_strings = 0
+
+  #   a nice string is one with all of the following properties:
+
+  #   It contains a pair of any two letters that appears at least twice in the string without overlapping, 
+  #   like xyxy (xy) or aabcdefgaa (aa), but not like aaa (aa, but it overlaps).
+
+  #   It contains at least one letter which repeats with exactly one letter between them, 
+  #   like xyx, abcdefeghi (efe), or even aaa.
+
+  pattern1 = r"(..).*\1" #Search for a consecutive pair of two letters (like "xyxy")
+  pattern2 = r"(.).\1" #Search for 4 letters in a row (like "aaaa")
+
+
+  for word in data:
+    match1 = re.search(pattern1, word)
+    if match1:
+      match2 = re.search(pattern2, word)
+      if match2:
+        total_nice_strings = total_nice_strings + 1
+
+  print(total_nice_strings)
+
 # exploration()
 # partOne()
+partTwo()
