@@ -23,7 +23,9 @@ def lookSay(num: str):
 
 # print(lookSay(number))
 
-for i in range(0, 40):
+# can adjust second number in range to solve the advent. 40 for part 1, 50 for part 2
+for i in range(0, 50):
+  print(i)
   number = lookSay(number)
 
 print(len(number))
