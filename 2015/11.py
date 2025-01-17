@@ -11,7 +11,10 @@ def checkPassword(word: str):
 
   return False
 
-def incrementPassword(word: str, position: int):
+
+# It is easier to change elements when the input is a list, because strings are immutable
+# Might need to make it a string for the regex part
+def incrementPassword(word: list, position: int):
   """Increments the password at the letting in position `position`
 
   Args:
@@ -20,9 +23,25 @@ def incrementPassword(word: str, position: int):
 
   Returns:
       str: The updated password after incrementing
+      position: The next position to be incremented
   """
 
-  return word
+  # minimum value a = 97
+  # maximum value z = 122
+  # skip values for i, o, l are 105, 111, and 108
+  charOrd = ord(word[position])
+
+  # If the character is `z`, change it to `a` and increment next letter
+  if charOrd == 122:
+    word[position] = "a"
+    word, position = incrementPassword(word, position - 1)
+  # If the character is `h`, `k`, or `n` then it needs to be incremented twice to skip `i`, `l`, or `o` respectively
+  elif charOrd == 104 or charOrd == 110 or charOrd == 107:
+    word[position] = chr(charOrd + 2)
+  else:
+    word[position] = chr(charOrd+1)
+
+  return word, position
 
 
 def partOne():
@@ -36,10 +55,8 @@ def partOne():
 
   print(password)
 
-password = "cqjxjnds"
+password = list("cqjxjnds")
 index = len(password) - 1
-print(password[index])
-print(ord(password[index]))
-print(chr(ord(password[index])+1))
 
-ord(password[index])
+
+
