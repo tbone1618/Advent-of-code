@@ -14,7 +14,7 @@ j = 1   #column
 # cities = {}
 
 for line in data:
-  #Loading the routes into an arry
+  #Loading the routes into an array
   routes[i][j] = int(line.split()[4])
   routes[j][i] = int(line.split()[4])
   j = j + 1
